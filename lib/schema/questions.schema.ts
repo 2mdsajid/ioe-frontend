@@ -49,56 +49,40 @@ export const BaseQuestionSchema = z.object({
   question: z.string(),
   answer: AnswerEnumSchema,
   explanation: z.string(),
-  subject: z.string(),
-  chapter: z.string(),
   unit: z.string(),
+  category: z.string().default('en').optional(),
   difficulty: z.string(),
-  isreported: z.any().nullable(),
-  isverified: z.any().nullable(),
-  isflagged: z.any().nullable(),
-  IsPast: CreatePastQuestionDataSchema.extend({ questionId: z.string() }).optional(),
+  ref : z.string().nullable(),
+  IsPast: CreatePastQuestionDataSchema.extend({ questionId: z.string() }).nullable(),
   stream: STREAMSchema,
-  subjectId: z.string().nullable(),
-  chapterId: z.string().nullable(),
 });
 export type TBaseQuestionSchema = z.infer<typeof BaseQuestionSchema>;
 
 // Corresponds to TQuestion
 export const QuestionSchema = BaseQuestionSchema.extend({
-  images: BaseImagesSchema.optional(),
+  subject: z.string(),
+  chapter: z.string(),
   options: BaseOptionSchema,
-  videoUrl: z.string().optional(),
-});
+  images: BaseImagesSchema.nullable(),
+  videoUrl: z.string().nullable(),
+})
 export type TQuestionSchema = z.infer<typeof QuestionSchema>;
 
 
-export const QuestionInCustomTestSchema = QuestionSchema.pick({
-  id: true,
-  question: true,
-  options: true,
-  answer: true,
-  unit: true,
-  explanation: true,
-  subject: true,
-  chapter: true,
-  images: true,
-  videoUrl: true,
-  IsPast: true,
+export const QuestionInCustomTestSchema = QuestionSchema.omit({
+  stream:true,
+  category:true,
 }).extend({
-  uans: z.string(),
+  uans: AnswerEnumSchema,
   timetaken: z.number().nullable()
 })
-export type TQuestionInCustomTestchema = z.infer<typeof QuestionInCustomTestSchema>
+export type TQuestionInCustomTestSchema = z.infer<typeof QuestionInCustomTestSchema>
 
 
 //  for adding new questions 
 export const AddQuestionSchema = QuestionSchema.omit({
   id: true,
-  chapterId: true,
-  subjectId: true,
   IsPast: true,
-}).extend({
-  videoUrl: z.string().optional(),
 });
 export type TAddQuestionSchema = z.infer<typeof AddQuestionSchema>;
 
@@ -112,15 +96,18 @@ export type TNewAddedQuestionSchema = z.infer<typeof NewAddedQuestionSchema>
 
 
 export const ExpectedQuestionFormatFromFileSchema = z.object({
-  qn: z.string(),
+  question: z.string(),
   options: BaseOptionSchema,
-  ans: AnswerEnumSchema, // Using the enum for better validation
+  answer: AnswerEnumSchema, // Using the enum for better validation
   chapter: z.string().optional(),
   subject: z.string().optional(),
   unit: z.string().optional(),
+  category: z.string().default('en').optional(),
   difficulty: z.string().optional(),
-  exp: z.string().optional(),
-  images: BaseImagesSchema.optional(),
+  explanation: z.string().optional(),
+  images: BaseImagesSchema,
+  ref : z.string().nullable(),
+  videoUrl: z.string().nullable(),
 });
 export type TExpectedQuestionFormatFromFile = z.infer<typeof ExpectedQuestionFormatFromFileSchema>;
 
@@ -132,6 +119,7 @@ export const AiQuestionUpdateSchema = z.object({
   answer: AnswerEnumSchema, // Using the enum for better validation
   explanation: z.string(),
   message: z.string().nullable(),
+  ref: z.string().nullable().optional()
 });
 export type TAiQUestionUpdate = z.infer<typeof AiQuestionUpdateSchema>;
 
@@ -169,8 +157,11 @@ export const AddFormattedQuestionSchema = QuestionSchema.pick({
   subject: true,
   chapter: true,
   unit: true,
+  ref:true,
   difficulty: true,
-  stream: true
+  category:true,
+  stream: true,
+  videoUrl:true,
 })
 export type TAddFormattedQuestionSchema = z.infer<typeof AddFormattedQuestionSchema>
 
@@ -191,3 +182,12 @@ export const QuesitonInAiRequestSchema = QuestionSchema.pick({
   uans: AnswerEnumSchema
 })
 export type TQuesitonInAiRequestSchema = z.infer<typeof QuesitonInAiRequestSchema>
+
+
+// bookmark questions
+export  type TBookmarkPreview = {
+    id: string;
+    question: string;
+    subject: string | null;
+    chapter:string | null
+};

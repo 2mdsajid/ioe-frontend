@@ -34,20 +34,20 @@ interface TestTypeCardProps {
 const TestTypeCard: React.FC<TestTypeCardProps> = ({ card, isLocked }) => {
   const Icon = iconMap[card.icon] || Settings;
   const destination = `/tests/${card.href}`;
+  
+  // Route to premium page if locked, otherwise proceed to the test
+  const targetHref = isLocked ? "/premium" : destination;
 
   return (
     <Link
-      href={isLocked ? "#" : destination}
-      className={cn(
-        "relative group block w-full rounded-2xl transition-all duration-300",
-        isLocked ? "cursor-not-allowed" : "hover:-translate-y-1"
-      )}
+      href={targetHref}
+      className="relative group block w-full rounded-2xl transition-all duration-300 hover:-translate-y-1"
     >
       {/* Main Card Body - Condensed Light Theme */}
       <div className={cn(
         "relative h-full bg-white border rounded-2xl p-5 flex flex-col overflow-hidden transition-all duration-300",
         isLocked
-          ? "border-slate-100 opacity-80"
+          ? "border-slate-100 bg-slate-50/50 hover:border-slate-200 hover:shadow-sm"
           : "border-slate-200 shadow-sm hover:border-blue-200 hover:shadow-md hover:shadow-blue-500/5"
       )}>
 
@@ -56,16 +56,16 @@ const TestTypeCard: React.FC<TestTypeCardProps> = ({ card, isLocked }) => {
           <div className={cn(
             "p-2.5 rounded-xl transition-all duration-500",
             isLocked
-              ? "bg-slate-50 text-slate-400"
+              ? "bg-slate-100 text-slate-400 group-hover:bg-blue-50 group-hover:text-blue-600"
               : "bg-blue-600 text-white shadow-md shadow-blue-100 group-hover:scale-105"
           )}>
             <Icon className="w-5 h-5" />
           </div>
 
           {isLocked ? (
-            <div className="bg-slate-50 border border-slate-100 px-2 py-0.5 rounded-md flex items-center gap-1">
-              <Lock className="w-2.5 h-2.5 text-slate-400" />
-              <span className="text-[9px] font-bold text-slate-400 uppercase tracking-tight">Pro</span>
+            <div className="bg-white border border-slate-200 px-2 py-0.5 rounded-md flex items-center gap-1 group-hover:border-blue-200 transition-colors">
+              <Lock className="w-2.5 h-2.5 text-slate-400 group-hover:text-blue-600 transition-colors" />
+              <span className="text-[9px] font-bold text-slate-400 group-hover:text-blue-600 uppercase tracking-tight transition-colors">Pro</span>
             </div>
           ) : (
             <div className="bg-blue-50 px-2 py-0.5 rounded-md flex items-center gap-1">
@@ -86,16 +86,18 @@ const TestTypeCard: React.FC<TestTypeCardProps> = ({ card, isLocked }) => {
         </div>
 
         {/* Action Footer - Low Profile */}
-        <div className="pt-3 border-t border-slate-50 flex items-center justify-between">
+        <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
           <span className={cn(
-            "text-[14px] font-black uppercase tracking-wider",
-            isLocked ? "text-slate-300" : "text-blue-600"
+            "text-[14px] font-black uppercase tracking-wider transition-colors",
+            isLocked ? "text-slate-400 group-hover:text-blue-600" : "text-blue-600"
           )}>
-            {isLocked ? "Locked" : "Start Now"}
+            {isLocked ? "Unlock Pro" : "Start Now"}
           </span>
           <div className={cn(
             "w-6 h-6 rounded-lg flex items-center justify-center transition-all duration-300",
-            isLocked ? "bg-slate-50 text-slate-200" : "bg-slate-100 text-slate-600 group-hover:bg-blue-600 group-hover:text-white"
+            isLocked 
+              ? "bg-slate-100 text-slate-400 group-hover:bg-blue-600 group-hover:text-white" 
+              : "bg-slate-100 text-slate-600 group-hover:bg-blue-600 group-hover:text-white"
           )}>
             <ChevronRight className="w-3.5 h-3.5" />
           </div>

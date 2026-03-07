@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Scale, ArrowLeft, Home, TriangleAlert } from 'lucide-react';
+import { Cpu, ArrowLeft, Home, TriangleAlert } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { LANGUAGE } from '@/lib/schema/base.schema';
@@ -14,71 +14,70 @@ type Props = {
 
 const ErrorPage: React.FC<Props> = ({ errorMessage, children, lan }) => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen w-screen absolute top-0 bg-[#050A18] text-white overflow-hidden selection:bg-amber-500/30">
+    <div className="flex flex-col items-center justify-center min-h-screen w-screen absolute top-0 bg-slate-50 text-slate-900 overflow-hidden selection:bg-blue-500/30">
       
-      {/* Background Decorative Mesh */}
-      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-600/10 rounded-full blur-[120px] pointer-events-none"></div>
-      <div className="absolute bottom-[-10%] right-[-10%] w-[30%] h-[30%] bg-amber-500/5 rounded-full blur-[120px] pointer-events-none"></div>
+      {/* Engineering Blueprint Grid Overlay */}
+      <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none" 
+           style={{ backgroundImage: `linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)`, backgroundSize: '40px 40px' }} />
 
       {/* Main Content Card */}
       <div className="relative z-10 text-center max-w-xl mx-auto px-6">
         
         {/* Animated Error Emblem */}
-        <div className="flex justify-center mb-10">
-          <div className="relative p-8 rounded-[2.5rem] bg-white/5 border border-white/10 group">
-            <div className="absolute inset-0 bg-red-500/10 rounded-[2.5rem] blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-            <TriangleAlert className="w-16 h-16 text-amber-500 relative z-10 animate-in fade-in zoom-in duration-500" />
+        <div className="flex justify-center mb-8">
+          <div className="relative p-6 rounded-2xl bg-white border border-slate-200 shadow-sm group">
+            <div className="absolute inset-0 bg-rose-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <TriangleAlert className="w-12 h-12 text-rose-500 relative z-10 animate-in fade-in zoom-in duration-500" />
           </div>
         </div>
 
-        {/* Legal-Grade Heading */}
-        <div className="space-y-2 mb-6">
-            <h2 className="text-6xl md:text-7xl font-black tracking-tighter uppercase text-white">
-                NOT <span className="text-amber-500">Found</span>
+        {/* Technical Heading */}
+        <div className="space-y-2 mb-4">
+            <h2 className="text-5xl md:text-6xl font-black tracking-tighter uppercase text-slate-900">
+                SYSTEM <span className="text-blue-600">FAULT</span>
             </h2>
-            {/* <div className="h-1 w-24 bg-amber-500 mx-auto rounded-full"></div> */}
         </div>
 
-        {/* Error Message with High Contrast
-        <p className="text-lg md:text-xl text-slate-400 mb-10 font-medium leading-relaxed max-w-md mx-auto">
-          {errorMessage || 'A procedural error has occurred while processing your request.'}
-        </p> */}
+        {/* Error Message with Clean Contrast */}
+        <p className="text-sm md:text-base text-slate-500 mb-10 font-medium leading-relaxed max-w-md mx-auto">
+          {errorMessage || 'A runtime error occurred while executing the requested module.'}
+        </p>
 
         {/* Dynamic Content or Default Actions */}
         {children ? (
-          <div className="text-slate-300 text-lg leading-relaxed mb-8 p-6 bg-white/5 backdrop-blur-md rounded-3xl border border-white/10 shadow-2xl">
+          <div className="text-slate-600 text-sm leading-relaxed mb-8 p-6 bg-white rounded-2xl border border-slate-200 shadow-sm">
             {children}
           </div>
         ) : (
-          <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button
               onClick={() => window.history.back()}
-              className="w-full sm:w-auto h-14 px-8 bg-amber-500 hover:bg-amber-400 text-black font-black text-xs uppercase tracking-widest rounded-2xl shadow-[0_10px_20px_rgba(245,158,11,0.2)] transition-all active:scale-95 flex items-center gap-2"
+              className="w-full sm:w-auto h-12 px-8 bg-slate-900 hover:bg-blue-600 text-white font-black text-[10px] uppercase tracking-widest rounded-xl shadow-md hover:shadow-lg transition-all active:scale-95 flex items-center gap-2"
             >
               <ArrowLeft className="w-4 h-4" />
-              Return 
+              Return Previous 
             </Button>
 
             <Link href="/" className="w-full sm:w-auto">
               <Button
                 variant="outline"
-                className="w-full h-14 px-8 bg-transparent border-white/10 hover:bg-white/5 text-white font-black text-xs uppercase tracking-widest rounded-2xl transition-all flex items-center gap-2"
+                className="w-full h-12 px-8 bg-white border-slate-200 hover:bg-slate-50 hover:text-blue-600 text-slate-700 font-black text-[10px] uppercase tracking-widest rounded-xl shadow-sm transition-all flex items-center gap-2"
               >
                 <Home className="w-4 h-4" />
-                Home
+                Initialize Hub
               </Button>
             </Link>
           </div>
         )}
 
         {/* Updated Footer Branding */}
-        <div className="mt-16 flex flex-col items-center gap-3">
-            <div className="flex items-center gap-2 text-slate-600">
-                <Scale className="w-4 h-4" />
-                <span className="text-[10px] font-black uppercase tracking-[0.4em]">Legal-Path Nepal</span>
+        <div className="mt-20 flex flex-col items-center gap-3">
+            <div className="flex items-center gap-2 text-slate-400">
+                <Cpu className="w-4 h-4" />
+                <span className="text-[10px] font-black uppercase tracking-[0.3em]">IOE Locus</span>
             </div>
-            <p className="text-[10px] text-slate-700 font-bold uppercase tracking-widest">
-                Academic Integrity & Excellence
+            <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest">
+                Diagnostic Terminal Offline
             </p>
         </div>
       </div>

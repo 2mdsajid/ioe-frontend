@@ -33,7 +33,7 @@ export async function GET(request: Request): Promise<Response> {
 			// Decode the redirect URL part
 			redirectTo = decodeURIComponent(parts[1] || "");
 			// Basic validation to ensure it's a relative path or a valid absolute path
-			if (!redirectTo.startsWith("/") && !redirectTo.startsWith("https://loksewasopan.com")) {
+			if (!redirectTo.startsWith("/") && !redirectTo.startsWith("https://ioelocus.com")) {
 				redirectTo = "/dashboard"; // Fallback if redirect URL is invalid
 			}
 		} catch (error) {

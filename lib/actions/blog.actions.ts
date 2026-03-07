@@ -15,7 +15,7 @@ export const getAllBlogs = async (): Promise<{
 }> => {
     try {
 
-        const response = await fetch(`${process.env.BACKEND}/blog/get-blogs-by-stream/${stream}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/blog/get-blogs-by-stream/${stream}`, {
             method: "GET",
             cache: 'no-store',
             headers: {
@@ -46,7 +46,7 @@ export const getBlogBySlug = async (slug:string): Promise<{
 }> => {
     try {
 
-        const response = await fetch(`${process.env.BACKEND}/blog/get-single-blog/${slug}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/blog/get-single-blog/${slug}`, {
             method: "GET",
             cache: 'no-store',
             headers: {

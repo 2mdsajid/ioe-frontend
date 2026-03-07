@@ -1,23 +1,7 @@
 import { z } from "zod";
-import { LANGUAGE, TypeOfTest } from "./base.schema";
 import { ChapterInsightsSchema, ChapterStatsBySubjectSchema, PerformanceInsightSchema, PerformanceStatSchema } from "./analytics.schema";
-import { ModeOfTestSchema, STREAM, STREAMSchema, TypeOfTestSchema } from "./base.schema";
-import { QuestionInCustomTestSchema, QuestionSchema, TQuestionInCustomTestchema } from "./questions.schema";
-
-
-export type TAccessLevel = 'FREE' | 'PREMIUM';
-
-export type TTypeOfTestsAndDescription = {
-    type: TypeOfTest;
-    title: string;
-    description: string;
-    isAvailableTo: STREAM[];
-    accessLevel: TAccessLevel;
-    icon: string;
-    href: string;
-    isPopular?: boolean;
-}
-export type TestDataAndDescription = Record<LANGUAGE, TTypeOfTestsAndDescription[]>;
+import { ANSWER, ModeOfTest, ModeOfTestSchema, STREAM, STREAMSchema, TypeOfTestSchema } from "./base.schema";
+import { QuestionInCustomTestSchema, QuestionSchema, TQuestionInCustomTestSchema } from "./questions.schema";
 
 
 const CustomTestSchema = z.object({
@@ -71,7 +55,8 @@ const UserScoreSchema = z.object({
     customTestId: z.string(),
 });
 
-
+export const TTestLockTypeSchema = z.enum(['CODE', 'GROUP']);
+export type TTestLockType = z.infer<typeof TTestLockTypeSchema>;
 
 export const TcreateCustomTestSchema = CustomTestSchema.pick({
     name: true,
@@ -103,6 +88,7 @@ export const TBaseCustomTestSchema = CustomTestSchema.pick({
     name: true,
     date: true,
     archive: true,
+    type: true,
     isAvailableToPremium: true,
 }).extend({
     creator: z.string().optional(),
@@ -127,14 +113,15 @@ export type TBaseUserScore = z.infer<typeof TBaseUserScoreSchema>;
 export type TCreateCustomTestData = {
     name: string;
     slug: string;
-    limit: number;
     stream: STREAM;
     gid: string | null
+    mode: ModeOfTest,
     description?: string;
     imageUrl?: string;
     specialUrl?: string;
     specialImage?: string;
     isLocked: boolean;
+    testLockType?: TTestLockType
 };
 
 
@@ -146,9 +133,12 @@ export const TSingleCustomTestWithQuestionsSchema = CustomTestSchema.pick({
     slug: true,
     stream: true,
     archive: true,
+    type: true,
+    
 }).extend({
     createdBy: z.string(),
     questions: z.array(QuestionInCustomTestSchema),
+    lockType: TTestLockTypeSchema.nullable().optional()
 });
 export type TSingleCustomTestWithQuestions = z.infer<typeof TSingleCustomTestWithQuestionsSchema>;
 
@@ -162,6 +152,32 @@ export const TCreatePastPaperDataSchema = PastPaperSchema.omit({
     isUnlocked: true
 })
 export type TCreatePastPaperData = z.infer<typeof TCreatePastPaperDataSchema>
+
+
+//  for data in the dashboard -- for analysis
+export const TSingleCustomTestWithQuestionsAndUserAnswersSchema = CustomTestSchema.pick({
+    id: true,
+    name: true,
+    archive: true,
+}).extend({
+    questions: z.array(QuestionSchema.pick({
+        id: true,
+        question: true,
+        options: true,
+        answer: true,
+        explanation: true,
+        subject: true,
+        chapter: true,
+        images: true,
+        videoUrl: true,
+        ref: true,
+    }).extend({
+        userAnswer: z.string()
+    })
+    ),
+});
+export type TSingleCustomTestWithQuestionsAndUserAnswers = z.infer<typeof TSingleCustomTestWithQuestionsAndUserAnswersSchema>;
+
 
 
 
@@ -178,7 +194,6 @@ export type TCreateTestQuestionAnswer = z.infer<typeof TCreateTestQuestionAnswer
 
 
 export const TCreateTestAnalyticSchema = TestAnalyticSchema.pick({
-    userId: true,
     customTestId: true,
 }).extend({
     questionsWithAnswers: z.array(TCreateTestQuestionAnswerSchema),
@@ -191,10 +206,6 @@ export type TCreateTestAnalytic = z.infer<typeof TCreateTestAnalyticSchema>;
 export const TSaveUserScoreSchema = UserScoreSchema.omit({ id: true });
 export type TSaveUserScore = z.infer<typeof TSaveUserScoreSchema>;
 
-export const TTestLockTypeSchema = z.enum(['CODE', 'GROUP']);
-export type TTestLockType = z.infer<typeof TTestLockTypeSchema>;
-
-
 export const TTestLockSchema = z.object({
     isLocked: z.boolean(),
     keysUsed: z.array(z.string()),
@@ -206,16 +217,17 @@ export type TTestLock = z.infer<typeof TTestLockSchema>;
 export type TestAccessStatus = {
     canStart: boolean;
     reason: string;
-  };
+};
 
 
-  export const TCustomTestMetadataSchema = CustomTestSchema.pick({
+export const TCustomTestMetadataSchema = CustomTestSchema.pick({
     name: true,
     slug: true,
     date: true,
     archive: true,
     id: true,
     usersConnected: true,
+    type:true,
     description: true,
     specialImage: true,
     specialUrl: true,
@@ -230,9 +242,10 @@ export type TCustomTestMetadata = z.infer<typeof TCustomTestMetadataSchema>;
 
 //  this will come from backend unthe /tests/view page --------
 export type TTestViewMetaData = {
-    testMetadata : TCustomTestMetadata,
-    access : TestAccessStatus
+    testMetadata: TCustomTestMetadata,
+    access: TestAccessStatus
 }
+
 
 
 // for custom tests
@@ -281,31 +294,18 @@ export type TPerformanceAnalyzerTest = z.infer<typeof PerformanceAnalyzerTestSch
 
 
 // mistake analyzer
-export const TQuestionForRevisionSchema = QuestionSchema.pick({
-    id: true,
-    question: true,
-    answer: true,
-    explanation: true,
-    subject: true,
-    chapter: true,
-    unit: true,
-    images: true,
-    difficulty: true,
-    options: true,
-})
-export type TQuestionForRevision = z.infer<typeof TQuestionForRevisionSchema>
+export type TMistakePreviewItem = {
+    id: string;
+    question: string;
+    subject: string | null; // ✅ Added Subject
+    userAnswer: ANSWER;
+};
 
-export const TQuestionForRevisionWithUserAnswerSchema = TQuestionForRevisionSchema.extend({
-    userAnswer: z.string()
-})
-export type TQuestionForRevisionWithUserAnswer = z.infer<typeof TQuestionForRevisionWithUserAnswerSchema>
+export type TMistakeList = {
+    incorrectQuestions: TMistakePreviewItem[];
+    unattemptedQuestions: TMistakePreviewItem[];
 
-
-export const TMistakeAnalysisSchema = z.object({
-    incorrectQuestions: z.array(TQuestionForRevisionWithUserAnswerSchema),
-    unattemptedQuestions: z.array(TQuestionForRevisionWithUserAnswerSchema),
-});
-export type TMistakeAnalysis = z.infer<typeof TMistakeAnalysisSchema>;
+};
 
 
 
@@ -391,7 +391,7 @@ export type TSubjectWiseChapterScores = {
 
 //  categorise questions by subject
 export type CategorizedQuestions = {
-    [subject: string]: TQuestionInCustomTestchema[];
+    [subject: string]: TQuestionInCustomTestSchema[];
 };
 
 
@@ -407,3 +407,87 @@ export type BiologySeriesRoutine = {
         };
     };
 }
+
+
+export const CEEAnalysisDataSchema = z.array(
+    z.object({
+        year: z.number(),
+        category: z.string().nullable(),
+        affiliation: z.string(),
+        tests: z.object({
+            id: z.string(),
+            name: z.string(),
+            questions: z.array(
+                z.object({
+                    id: z.string(),
+                    question: z.string(),
+                    subject: z.string(),
+                    chapter: z.string(),
+                })
+            ),
+        }),
+    })
+);
+
+export type TCEEAnalysisData = z.infer<typeof CEEAnalysisDataSchema>;
+
+
+//  for past papers analysis
+export type ProcessedTest = {
+    testId: string;
+    testName: string;
+    year: number;
+    affiliation: string;
+    subjects: Record<string, Record<string, number>>; // subject -> chapter -> count
+    totalQuestions: number;
+};
+
+export type DashboardData = ProcessedTest[];
+
+// Define the shape of our *new* processed data
+export type ChapterQuestionData = {
+    chapter: string;
+    count: number;
+    // We are adding this 'questions' array
+    questions: TCEEAnalysisData[number]['tests']['questions'];
+};
+
+export type SubjectAnalysis = {
+    subject: string;
+    totalQuestions: number;
+    chapters: ChapterQuestionData[]; // Use the new type here
+};
+
+// The data for one subject for one year
+export type YearlySubjectData = {
+    testId: string;
+    testName: string;
+    chapters: ChapterQuestionData[];
+};
+
+// The data for one subject's average across all years
+export type AverageSubjectData = {
+    chapter: string;
+    averageCount: number;
+};
+
+export type ProcessedSubjectData = {
+    subject: string;
+    totalQuestions: number;
+    yearlyData: YearlySubjectData[];
+    averageData: AverageSubjectData[];
+};
+
+
+export const CreateLiveTestSchema = z.object({
+    customTestId: z.string(),
+    stream: STREAMSchema
+})
+
+export const LiveTestDataSchema = z.object({
+    customTestId: z.string(),
+    name: z.string()
+})
+
+export type TCreateLiveTest = z.infer<typeof CreateLiveTestSchema>
+export type TLiveTestData = z.infer<typeof LiveTestDataSchema>

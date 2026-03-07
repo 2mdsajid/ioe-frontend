@@ -22,7 +22,7 @@ const Footer: React.FC = () => {
               <span className="text-2xl font-bold text-white tracking-tighter uppercase">IOE LOCUS</span>
             </div>
             <Link href="mailto:support@ioelocus.com" className="text-sm font-medium hover:text-blue-400 transition-colors md:ml-1">
-              support@ioelocus.com
+              ioelocus@gmail.com
             </Link>
           </div>
 

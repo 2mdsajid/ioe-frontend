@@ -14,7 +14,7 @@ export const metadata: Metadata = constructMetadata({
 
 // Hardcoded English Features for IOE Locus
 const freeFeatures = [
-    { title: "Standard Mock Exams (Limited)", icon: BookOpen },
+    { title: "Standard Exams (Limited)", icon: BookOpen },
     { title: "Basic Performance Analytics", icon: BarChart },
     { title: "Public Leaderboard Access", icon: TrendingUp },
     { title: "Recent Past Papers (3 Years)", icon: Database },
@@ -60,7 +60,7 @@ const Page = () => {
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                         <Button asChild className="rounded-xl px-10 py-7 text-[11px] font-bold bg-slate-900 hover:bg-blue-600 text-white shadow-xl shadow-slate-200/50 transition-all uppercase tracking-widest">
                             <Link href={'/premium/register'}>
-                                Activate Pro License <ChevronRight className="ml-2 h-4 w-4" />
+                                Activate Pro <ChevronRight className="ml-2 h-4 w-4" />
                             </Link>
                         </Button>
                     </div>
@@ -73,7 +73,7 @@ const Page = () => {
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-slate-900">
                         Capability Comparison
                     </h2>
-                    <p className="text-slate-500 font-bold uppercase tracking-widest text-[10px] mt-4">Review System Tiers</p>
+                    <p className="text-slate-500 font-bold uppercase tracking-widest text-[10px] mt-4">Review Premium</p>
                 </div>
 
                 <div className="grid gap-8 md:grid-cols-2 lg:items-start max-w-6xl mx-auto">
@@ -113,7 +113,7 @@ const Page = () => {
                                 <Star className="h-4 w-4 text-blue-500" />
                                 <h3 className="text-[10px] font-black text-blue-500 uppercase tracking-[0.2em]">Pro Tier</h3>
                             </div>
-                            <div className="text-3xl font-bold tracking-tighter text-white">Premium License</div>
+                            <div className="text-3xl font-bold tracking-tighter text-white">Upgrade Premium </div>
                         </div>
 
                         <ul className="space-y-6 flex-1 relative z-10">
@@ -129,7 +129,7 @@ const Page = () => {
 
                         <Button asChild className="w-full mt-10 bg-blue-600 hover:bg-blue-700 text-white font-bold py-7 rounded-xl uppercase tracking-widest text-[11px] shadow-lg relative z-10 transition-transform">
                             <Link href={'/premium/register'}>
-                                Initialize Pro Workspace <ArrowRight className="ml-2 h-4 w-4" />
+                                Get Premium <ArrowRight className="ml-2 h-4 w-4" />
                             </Link>
                         </Button>
                     </div>

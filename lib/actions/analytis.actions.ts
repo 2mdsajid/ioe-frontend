@@ -18,7 +18,7 @@ export const getDashboardAnalytics = async (userId: string): Promise<{
         }
 
 
-        const response = await fetch(`${process.env.BACKEND}/analytics/get-dashboard-analytics`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/analytics/get-dashboard-analytics`, {
             method: "GET",
             cache: 'no-store',
             headers: {

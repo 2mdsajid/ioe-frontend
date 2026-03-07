@@ -2,10 +2,10 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Loader2, Zap } from "lucide-react";
-import { TQuestionInCustomTestchema } from "@/lib/schema/questions.schema";
+import { TQuestionInCustomTestSchema } from "@/lib/schema/questions.schema";
 
 interface TestSidebarProps {
-    questions: TQuestionInCustomTestchema[];
+    questions: TQuestionInCustomTestSchema[];
     userAnswers: Map<string, { uans: string }>;
     currentIndex: number;
     onSelectQuestion: (index: number) => void;

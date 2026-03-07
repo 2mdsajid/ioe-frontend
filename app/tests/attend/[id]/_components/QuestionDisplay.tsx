@@ -2,11 +2,11 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, Zap } from "lucide-react";
-import { TQuestionInCustomTestchema } from "@/lib/schema/questions.schema";
+import { TQuestionInCustomTestSchema } from "@/lib/schema/questions.schema";
 import { ParsedElement } from '@/lib/utils';
 
 interface QuestionDisplayProps {
-    question: TQuestionInCustomTestchema;
+    question: TQuestionInCustomTestSchema;
     questionNumber: number;
     totalQuestions: number;
     selectedAnswer?: string;
@@ -53,7 +53,7 @@ const QuestionDisplay: React.FC<QuestionDisplayProps> = ({
                                 ${isSelected ? "bg-white/20" : "bg-slate-50 text-blue-600 border border-slate-100"}`}>
                                 {key}
                             </span>
-                            <span className="font-bold text-sm md:text-base">{value}</span>
+                            <span className="font-bold text-sm md:text-base">{ParsedElement(value)}</span>
                         </button>
                     );
                 })}

@@ -18,7 +18,7 @@ export const getTotalQuestionsPerSubject = async (): Promise<{
         const cookieStore = await cookies();
         const authToken = cookieStore.get("ioe-auth-token")?.value;
 
-        const response = await fetch(`${process.env.BACKEND}/questions/get-total-questions-per-subject?stream=${stream}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/questions/get-total-questions-per-subject?stream=${stream}`, {
             method: "GET",
             cache: 'no-store',
             headers: {
@@ -51,7 +51,7 @@ export const getLoksewaSubjectsTranslations = async (): Promise<{
         const cookieStore = await cookies();
         const authToken = cookieStore.get("ioe-auth-token")?.value;
 
-        const response = await fetch(`${process.env.BACKEND}/questions/get-loksewa-subjects-translations`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/questions/get-loksewa-subjects-translations`, {
             method: "GET",
             cache: 'no-store',
             headers: {
@@ -79,10 +79,10 @@ export const getTotalQuestionsPerSubjectAndChapter = async (): Promise<{
 }> => {
     try {
 
-        const cookieStore =await  cookies();
+        const cookieStore = await cookies();
         const authToken = cookieStore.get("ioe-auth-token")?.value;
 
-        const response = await fetch(`${process.env.BACKEND}/questions/get-total-questions-per-subject-and-chapter?stream=${stream}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/questions/get-total-questions-per-subject-and-chapter?stream=${stream}`, {
             method: "GET",
             cache: 'no-store',
             headers: {
@@ -115,7 +115,7 @@ export const getLoksewaChaptersTranslations = async (): Promise<{
         const cookieStore = await cookies();
         const authToken = cookieStore.get("ioe-auth-token")?.value;
 
-        const response = await fetch(`${process.env.BACKEND}/questions/get-loksewa-chapters-translations`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/questions/get-loksewa-chapters-translations`, {
             method: "GET",
             cache: 'no-store',
             headers: {

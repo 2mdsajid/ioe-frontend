@@ -1,67 +1,77 @@
 // different types of tests ----------------------------------------------------------------
-import { TestDataAndDescription } from '../schema/tests.schema';
+import { STREAM, TypeOfTest } from '../schema/base.schema';
+
+export type TAccessLevel = 'FREE' | 'PREMIUM';
+export type TTypeOfTestsAndDescription = {
+  type: TypeOfTest;
+  title: string;
+  description: string;
+  isAvailableTo: STREAM[];
+  accessLevel: TAccessLevel;
+  icon: string;
+  href: string;
+  isPopular?: boolean;
+}
+
 
 // Data array with the new fields
-export const testDataAndDescription: TestDataAndDescription = {
-  'en': [
-    {
-      type: 'MODEL',
-      title: 'Model Exams',
-      description: 'Mock test to simulate real exam conditions.',
-      isAvailableTo: ['UG', 'PG', 'IOE'],
-      accessLevel: 'FREE',
-      icon: 'BarChart',
-      href: 'model'
-    },
-    {
-      type: 'SUBJECT_WISE',
-      title: 'Subject Wise',
-      description: 'Test focused on a specific subject.',
-      isAvailableTo: ['UG', 'PG', 'IOE'],
-      accessLevel: 'FREE',
-      icon: 'BookOpen',
-      href: 'subjectwise'
-    },
-    {
-      type: 'CHAPTER_WISE',
-      title: 'Chapter Wise',
-      description: 'Test focused on specific chapters.',
-      isAvailableTo: ['UG', 'PG', 'IOE'],
-      accessLevel: 'FREE',
-      icon: 'FileText',
-      href: 'chapterwise'
-    },
-  ],
-  'np': [
-    {
-      type: 'MODEL',
-      title: 'नमूना परीक्षा',
-      description: 'वास्तविक परीक्षाको स्थितिलाई अनुकरण गर्न नक्कली परीक्षण।',
-      isAvailableTo: ['IOE'],
-      accessLevel: 'FREE',
-      icon: 'BarChart',
-      href: 'model'
-    },
-    {
-      type: 'SUBJECT_WISE',
-      title: 'विषय अनुसार',
-      description: 'कुनै खास विषयमा केन्द्रित परीक्षण।',
-      isAvailableTo: ['IOE'],
-      accessLevel: 'FREE',
-      icon: 'BookOpen',
-      href: 'subjectwise'
-    },
-    {
-      type: 'CHAPTER_WISE',
-      title: 'पाठ अनुसार',
-      description: 'विशेष अध्यायहरूमा केन्द्रित परीक्षण।',
-      isAvailableTo: ['IOE'],
-      accessLevel: 'FREE',
-      icon: 'FileText',
-      href: 'chapterwise'
-    },
-  ],
-}
+export const testDataAndDescription: TTypeOfTestsAndDescription[] = [
+  {
+    type: 'MODEL',
+    title: 'Model Exams',
+    description: 'Mock test to simulate real exam conditions.',
+    isAvailableTo: ['IOE'],
+    accessLevel: 'FREE',
+    icon: 'BarChart',
+    href: 'model'
+  },
+  {
+    type: 'SUBJECT_WISE',
+    title: 'Subject Wise',
+    description: 'Test focused on a specific subject.',
+    isAvailableTo: ['IOE'],
+    accessLevel: 'FREE',
+    icon: 'BookOpen',
+    href: 'subjectwise'
+  },
+  {
+    type: 'CHAPTER_WISE',
+    title: 'Chapter Wise',
+    description: 'Test focused on specific chapters.',
+    isAvailableTo: ['IOE'],
+    accessLevel: 'PREMIUM',
+    icon: 'FileText',
+    href: 'chapterwise'
+  },
+  {
+    type: 'CUSTOM',
+    title: 'Custom Test',
+    description: 'Create your own test with custom settings.',
+    isAvailableTo: ['IOE'],
+    accessLevel: 'PREMIUM',
+    icon: 'Wrench',
+    href: 'custom'
+  },
+  {
+    type: 'DIFFICULTY_BASED',
+    title: 'Difficulty Based',
+    description: 'Test based on easy, medium, or hard questions.',
+    isAvailableTo: ['IOE'],
+    accessLevel: 'PREMIUM',
+    icon: 'Sliders',
+    href: 'difficulty'
+  },
+  {
+    type: 'RETAKE',
+    title: 'Retake Test',
+    description: 'Retake a previously completed test.',
+    isAvailableTo: ['IOE'],
+    accessLevel: 'PREMIUM',
+    icon: 'Repeat',
+    href: 'retake'
+  }
+]
+
 
 // {
 //   type: 'DAILY_TEST',
@@ -133,7 +143,7 @@ export const testDataAndDescription: TestDataAndDescription = {
 //   type: 'REVISION',
 //     title: 'Revision Test',
 //       description: 'Practice questions you got wrong or skipped.',
-//         isAvailableTo: ['UG', 'PG', 'BALLB'],
+//         isAvailableTo: ['BALLB'],
 //           accessLevel: 'PREMIUM',
 //             icon: 'RefreshCcw',
 //               href: '/tests/revision' // Assuming this is the entry point
@@ -142,7 +152,7 @@ export const testDataAndDescription: TestDataAndDescription = {
 //   type: 'RETAKE',
 //     title: 'Retake Test',
 //       description: 'Retake a previously completed test.',
-//         isAvailableTo: ['UG', 'PG', 'BALLB'],
+//         isAvailableTo: ['BALLB'],
 //           accessLevel: 'PREMIUM',
 //             icon: 'Repeat',
 //               href: '/tests/retake' // Assuming you'd select a test to retake from history

@@ -8,7 +8,7 @@ import TestMain from './_components/TestMain';
 
 type Props = {
     params: Promise<{ id: string }>,
-    searchParams: { username: string; c: string; t: string }
+    searchParams: Promise<{ username: string; c: string; t: string }>
 };
 
 export const generateMetadata = async (props: Props): Promise<Metadata> => {
@@ -34,10 +34,13 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
 
 const Page = async (props: Props) => {
     const { data: user } = await getUserSession();
+    
+    // Properly await both params and searchParams for Next.js 15 compatibility
     const params = await props.params;
+    const searchParams = await props.searchParams;
 
     const testid = params.id
-    const testCode = props.searchParams.c;
+    const testCode = searchParams.c;
 
     const { data: testData, message } = await getSingleTestById(testid, testCode);
 
@@ -45,17 +48,22 @@ const Page = async (props: Props) => {
         return <ErrorPage errorMessage={message || "Simulation protocol currently offline."} />;
     }
 
-    const username = props.searchParams.username || generateRandomName();
+    const username = searchParams.username || generateRandomName();
     const { test } = testData;
 
     return (
-        <div className='min-h-screen bg-slate-50'>
+        <div className='min-h-screen bg-slate-50 selection:bg-blue-500/30'>
             <TestMain
                 id={test.id}
                 testName={test.name}
                 questions={test.questions}
                 username={username}
                 user={user}
+                // Supplying the extra props required by the new backend logic in TestMain
+                testType={test.type}
+                stream={test.stream}
+                testCode={testCode}
+                lockType={test.lockType} 
             />
         </div>
     );

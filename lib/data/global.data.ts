@@ -253,7 +253,7 @@ export function constructMetadata({
       creator: "@c0mrad1_"
     },
     icons,
-    metadataBase: new URL('https://loksewasopan.com'),
+    metadataBase: new URL('https://ioelocus.com'),
     ...(noIndex && {
       robots: {
         index: false,

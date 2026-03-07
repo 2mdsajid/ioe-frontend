@@ -8,11 +8,12 @@ import { constructMetadata } from "@/lib/data/global.data";
 import TestInteractionWrapper from "./_components/TestInteractionWrapper";
 
 type Props = {
-    params: { id: string };
+    params: Promise<{ id: string }>;
 };
 
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
-    const { data } = await getTestMetadataWithAccess(params.id, '');
+    const { id: testid } = await params;
+    const { data } = await getTestMetadataWithAccess(testid, '');
 
     const siteName = "IOE Locus";
     if (!data?.testMetadata) {
@@ -32,25 +33,26 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
 const Page = async ({ params }: Props) => {
     const { data: user } = await getUserSession();
     const userId = user?.id;
-    const { id: testid } = params;
+
+    const { id: testid } = await params;
 
     const { data: testData, message } = await getTestMetadataWithAccess(testid, userId);
 
     if (!testData?.testMetadata) {
-        return <ErrorPage errorMessage={"System Briefing Error: Module data not initialized."} />;
+        return <ErrorPage errorMessage={message} />;
     }
 
     const { testMetadata, access } = testData;
 
     return (
         <div className="bg-slate-50 text-slate-900 min-h-screen relative overflow-hidden">
-             {/* Engineering Blueprint Grid */}
-            <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none" 
-                 style={{ backgroundImage: `linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)`, backgroundSize: '40px 40px' }} />
-            
-            <div className="container relative z-10 mx-auto max-w-7xl px-6 pt-24 md:pt-32">
+            {/* Engineering Blueprint Grid */}
+            <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none"
+                style={{ backgroundImage: `linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)`, backgroundSize: '40px 40px' }} />
+
+            <div className="container relative z-10 mx-auto max-w-7xl px-6 pt-12 md:pt-32">
                 <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-                    
+
                     {/* Left: Module Summary Card */}
                     <div className="lg:col-span-2">
                         <div className="bg-white border border-slate-200 p-6 rounded-[1.5rem] shadow-sm h-fit sticky top-28">
@@ -66,7 +68,7 @@ const Page = async ({ params }: Props) => {
                                     loading="lazy"
                                 />
                             )}
-                            
+
                             <div className="mb-6">
                                 <h1 className="text-2xl font-black tracking-tight text-slate-900 mb-2 uppercase leading-tight">
                                     {testMetadata.name}
@@ -80,7 +82,7 @@ const Page = async ({ params }: Props) => {
                                     </span>
                                 </div>
                             </div>
-                            
+
                             <TestInteractionWrapper metadata={testMetadata} access={access} />
                         </div>
                     </div>
@@ -95,7 +97,7 @@ const Page = async ({ params }: Props) => {
                                     </div>
                                     <h2 className="text-xl font-bold uppercase tracking-tight text-slate-900">Module Protocol</h2>
                                 </div>
-                                
+
                                 <TestInfoFooter
                                     description={testMetadata.description}
                                     specialUrl={testMetadata.specialUrl}

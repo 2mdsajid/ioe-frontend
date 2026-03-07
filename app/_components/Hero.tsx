@@ -35,15 +35,15 @@ const Hero: React.FC = () => {
 
           <p className="text-lg text-slate-500 max-w-lg leading-relaxed border-l-2 border-slate-200 pl-6">
             IOE Locus is a high-performance practice engine for the Pulchowk Entrance. 
-            No fluff. Just 2000+ targeted problems in Physics, Chemistry, and Mathematics.
+            No fluff. Just 20000+ targeted problems in Physics, Chemistry, and Mathematics.
           </p>
 
           <div className="flex flex-wrap gap-4 pt-4">
-            <Link href="/solve" className="px-8 py-4 bg-slate-900 text-white rounded-lg font-bold hover:bg-blue-600 transition-colors flex items-center gap-2">
+            <Link href="/tests" className="px-8 py-4 bg-slate-900 text-white rounded-lg font-bold hover:bg-blue-600 transition-colors flex items-center gap-2">
               Get Started <ChevronRight className="w-4 h-4" />
             </Link>
-            <Link href="/roadmap" className="px-8 py-4 bg-white border border-slate-200 rounded-lg font-bold hover:border-slate-400 transition-all">
-              View Roadmap
+            <Link href="/premium" className="px-8 py-4 bg-white border border-slate-200 rounded-lg font-bold hover:border-slate-400 transition-all">
+              Explore Premium
             </Link>
           </div>
         </div>

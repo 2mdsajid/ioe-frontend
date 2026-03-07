@@ -36,7 +36,7 @@ const page = async (props: Props) => {
     }
 
     return (
-        <div className='w-full bg-slate-50 min-h-screen relative overflow-hidden text-slate-900 pt-2 lg:pt-24'>
+        <div className='w-full bg-slate-50 min-h-screen relative overflow-hidden text-slate-900 pt-12 lg:pt-24'>
             {/* IOE Locus Engineering Grid Background */}
             <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none"
                 style={{ backgroundImage: `linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)`, backgroundSize: '40px 40px' }}>
@@ -46,20 +46,7 @@ const page = async (props: Props) => {
                 <header className="border-b border-slate-200 pb-8">
                     <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
 
-                        {/* Left: Global Dashboard Identity */}
-                        <div>
-                            <div className="inline-flex items-center gap-2 py-1 px-3 rounded-md bg-blue-50 border border-blue-100 text-blue-600 mb-4">
-                                <Activity className="w-4 h-4" />
-                                <span className="text-[10px] font-black uppercase tracking-widest">System Telemetry</span>
-                            </div>
-
-                            <h1 className="text-3xl md:text-4xl font-bold tracking-tighter text-slate-900">
-                                Performance Dashboard
-                            </h1>
-                            <p className="mt-2 text-sm text-slate-500 font-medium">
-                                Real-time analysis of your mock examinations and chapter proficiency.
-                            </p>
-                        </div>
+ 
 
                         {/* Right: User Session & Subscription Pill */}
                         <div className="flex items-center gap-4 bg-white p-2 pr-6 rounded-full border border-slate-200 shadow-sm shrink-0">

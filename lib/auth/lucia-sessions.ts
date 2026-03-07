@@ -12,7 +12,7 @@ export async function getUserFromGoogleId(userData: TLuciaGoogleAuth): Promise<{
 	try {
 		// console.log("Starting getUserFromGoogleId with data:", userData);
 		const response = await fetch(
-			`${process.env.BACKEND}/users/lucia-google-auth-ioe`,
+			`${process.env.NEXT_PUBLIC_BACKEND}/users/lucia-google-auth-ioe`,
 			{
 				method: "POST",
 				headers: {

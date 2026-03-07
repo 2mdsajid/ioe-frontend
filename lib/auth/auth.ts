@@ -28,7 +28,7 @@ export const getUserSession = async (): Promise<{
       return { data: null, message: "User not logged in!" };
     }
 
-    const response = await fetch(`${process.env.BACKEND}/users/get-user-session`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/users/get-user-session`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -168,7 +168,7 @@ export const generateAuthToken = async (
 ): Promise<string | null> => {
   try {
     const response = await fetch(
-      `${process.env.BACKEND}/users/generate-auth-token`,
+      `${process.env.NEXT_PUBLIC_BACKEND}/users/generate-auth-token`,
       {
         method: "POST",
         headers: {

@@ -18,7 +18,7 @@ export const askGemini = async (): Promise<{
         }
 
         
-        const response = await fetch(`${process.env.BACKEND}/google/ask-gemini`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/google/ask-gemini`, {
             method: "GET",
             cache: 'no-store',
             headers: {
@@ -50,7 +50,7 @@ export const getGeminiExplanation = async (questionData:TQuesitonInAiRequestSche
         const { question, options, uans } = questionData
         // console.log("🚀 ~ getGeminiExplanation ~ questionData:", questionData)
         
-        const response = await fetch(`${process.env.BACKEND}/google/get-gemini-explanation`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/google/get-gemini-explanation`, {
             method: "POST",
             cache: 'no-store',
             headers: {
